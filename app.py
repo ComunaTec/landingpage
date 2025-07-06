@@ -188,6 +188,12 @@ def create_app():
                 logger.warning(f"WhatsApp inválido: {whatsapp} IP: {request.remote_addr}")
                 return jsonify({"error": "WhatsApp deve conter 11 dígitos (DDD+telefone)"}), 400
 
+            # Adiciona +55 ao WhatsApp antes de salvar
+            if whatsapp and whatsapp.isdigit() and len(whatsapp) == 11:
+                whatsapp = '+55' + whatsapp
+
+            logger.info(f"Salvando dados: nome={nome}, sobrenome={sobrenome}, email={email}, whatsapp={whatsapp}")
+
             imagem = request.files.get('imagem')
             imagem_path = ''
             if imagem and imagem.filename != '':
@@ -214,6 +220,7 @@ def create_app():
                     estuda, curso, instituicao, mensagem, imagem_path, request.remote_addr
                 ))
                 conn.commit()
+                logger.info(f"Dados salvos com sucesso. ID: {cursor.lastrowid}")
 
             return jsonify({"message": "Resposta enviada com sucesso!"}), 200
 
