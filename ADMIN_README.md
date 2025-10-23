@@ -25,10 +25,22 @@ O sistema de administração foi desenvolvido seguindo as melhores práticas de 
 python app.py
 ```
 
-### 2. Acessar a Área Administrativa
-- URL: `http://localhost:5001/admin/login`
+### 2. Configurar Variáveis de Ambiente
+```bash
+# OBRIGATÓRIO: Definir senha do admin
+export ADMIN_PASSWORD="sua-senha-super-segura-aqui"
 
-### 3. Navegação no Sistema
+# OPCIONAL: Outras configurações
+export SECRET_KEY="sua-chave-secreta-32-chars"
+export REDIS_URL="redis://localhost:6379/0"
+```
+
+### 3. Acessar a Área Administrativa
+- URL: `http://localhost:5001/admin/login`
+- **Usuário:** `admin`
+- **Senha:** Definida na variável `ADMIN_PASSWORD`
+
+### 4. Navegação no Sistema
 - **Dashboard:** Visualizar todas as respostas do formulário
 - **Busca:** Pesquisar por nome, email, cidade ou empresa
 - **Detalhes:** Ver informações completas de cada resposta
@@ -99,16 +111,19 @@ respostas:
 
 ### Variáveis de Ambiente
 ```bash
-# Chave secreta (OBRIGATÓRIO em produção)
+# OBRIGATÓRIO: Senha do administrador
+export ADMIN_PASSWORD="sua-senha-super-segura-aqui"
+
+# OBRIGATÓRIO: Chave secreta (em produção)
 export SECRET_KEY="sua-chave-secreta-super-forte"
 
-# Redis para Rate Limiter (recomendado para produção)
+# OPCIONAL: Redis para Rate Limiter (recomendado para produção)
 export REDIS_URL="redis://localhost:6379/0"
 
-# Configurações de banco (opcional)
+# OPCIONAL: Configurações de banco
 export DATABASE_URL="sqlite:///database.db"
 
-# Ambiente (opcional)
+# OPCIONAL: Ambiente
 export FLASK_ENV="production"
 ```
 

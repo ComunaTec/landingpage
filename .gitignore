@@ -58,3 +58,20 @@ htmlcov/
 
 # Project specific
 database.db
+static/uploads/
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Security
+.env.production
+secrets/
+*.key
+*.pem
+*.crt
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
