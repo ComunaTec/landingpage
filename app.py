@@ -133,13 +133,17 @@ def create_app():
                 
                 password_hash = hash_password(admin_password)
                 
-                cursor.execute(
-                    "INSERT INTO admin_users (username, password_hash) VALUES (?, ?)",
-                    ("admin", password_hash)
-                )
-                conn.commit()
-                logger.info("Usuário admin criado com sucesso. Username: admin")
-                logger.info("Senha definida via variável de ambiente ADMIN_PASSWORD")
+                try:
+                    cursor.execute(
+                        "INSERT INTO admin_users (username, password_hash) VALUES (?, ?)",
+                        ("admin", password_hash)
+                    )
+                    conn.commit()
+                    logger.info("Usuário admin criado com sucesso. Username: admin")
+                    logger.info("Senha definida via variável de ambiente ADMIN_PASSWORD")
+                except sqlite3.IntegrityError:
+                    # Usuário já foi criado por outro worker
+                    logger.info("Usuário admin já existe (criado por outro worker)")
             else:
                 logger.info("Usuário admin já existe no banco de dados")
 
