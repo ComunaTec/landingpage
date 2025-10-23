@@ -3,9 +3,11 @@ flask-limiter==3.8.0
 flask-wtf==1.3.1
 werkzeug==3.1.3
 gunicorn==23.0.0
-bcrypt>=4.3.0
+bcrypt>=4.4.0
 redis==5.1.1
 cryptography>=43.0.0
 pyjwt>=2.9.0
 itsdangerous>=2.2.0
 markupsafe>=3.0.0
+click>=8.1.7
+blinker>=1.8.2
