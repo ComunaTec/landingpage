@@ -123,17 +123,14 @@ def create_app():
             admin_exists = cursor.fetchone()[0]
             
             if admin_exists == 0:
-                # Cria usuário admin padrão: admin / admin123
-                # IMPORTANTE: Altere essa senha em produção!
-                default_password = "admin123"
+                default_password = app.config['SECRET_KEY']
                 password_hash = hash_password(default_password)
                 cursor.execute(
                     "INSERT INTO admin_users (username, password_hash) VALUES (?, ?)",
                     ("admin", password_hash)
                 )
                 conn.commit()
-                logger.info("Usuário admin padrão criado. Username: admin, Password: admin123")
-                logger.warning("IMPORTANTE: Altere a senha padrão em produção!")
+                logger.info("Usuário admin padrão criado. Username: admin")
             else:
                 logger.info("Usuário admin já existe no banco de dados")
 
