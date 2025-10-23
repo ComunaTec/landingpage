@@ -9,13 +9,26 @@ from datetime import datetime
 import logging
 import bcrypt
 from functools import wraps
+from security_config import SecurityConfig
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave-secreta-padrao-mudar-em-producao')
-    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max-limit
+    
+    # Valida variáveis de ambiente obrigatórias
+    try:
+        SecurityConfig.validate_environment()
+    except ValueError as e:
+        logger.error(f"Erro de configuração: {e}")
+        raise
+    
+    # Configurações de segurança
+    app.config['SECRET_KEY'] = SecurityConfig.get_secret_key()
+    app.config['MAX_CONTENT_LENGTH'] = SecurityConfig.UPLOAD_CONFIG['max_size']
+    app.config['SESSION_PERMANENT'] = SecurityConfig.SESSION_CONFIG['permanent']
+    app.config['SESSION_USE_SIGNER'] = SecurityConfig.SESSION_CONFIG['use_signer']
+    app.config['SESSION_KEY_PREFIX'] = SecurityConfig.SESSION_CONFIG['key_prefix']
+    
     UPLOAD_FOLDER = 'static/uploads'
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -34,11 +47,11 @@ def create_app():
     csrf = CSRFProtect(app)
     
     # Configuração do Rate Limiter com suporte a Redis
-    limiter_storage_uri = os.environ.get('REDIS_URL', 'memory://')
+    limiter_storage_uri = SecurityConfig.get_redis_url()
     limiter = Limiter(
         app=app,
         key_func=get_remote_address,
-        default_limits=["200 per day", "50 per hour"],
+        default_limits=SecurityConfig.RATE_LIMITS['default'],
         storage_uri=limiter_storage_uri
     )
     
@@ -124,12 +137,7 @@ def create_app():
             
             if admin_exists == 0:
                 # Busca a senha do admin nas variáveis de ambiente
-                admin_password = os.environ.get('ADMIN_PASSWORD')
-                
-                if not admin_password:
-                    logger.error("ERRO: Variável ADMIN_PASSWORD não definida!")
-                    logger.error("Defina a variável de ambiente ADMIN_PASSWORD antes de iniciar a aplicação.")
-                    raise ValueError("ADMIN_PASSWORD environment variable is required")
+                admin_password = SecurityConfig.get_admin_password()
                 
                 password_hash = hash_password(admin_password)
                 
@@ -149,11 +157,9 @@ def create_app():
 
     @app.after_request
     def add_security_headers(response):
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-        response.headers['X-XSS-Protection'] = '1; mode=block'
-        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
-        response.headers['Content-Security-Policy'] = "default-src 'self'"
+        # Aplica headers de segurança centralizados
+        for header, value in SecurityConfig.SECURITY_HEADERS.items():
+            response.headers[header] = value
         return response
 
     @app.route('/')
@@ -161,7 +167,7 @@ def create_app():
         return render_template('index.html')
 
     @app.route('/enviar', methods=['POST'])
-    @limiter.limit("5 per minute")
+    @limiter.limit(SecurityConfig.RATE_LIMITS['form_submit'])
     def enviar():
         try:
             # Validação de CSRF
@@ -240,7 +246,7 @@ def create_app():
 
     # ROTAS DE ADMINISTRAÇÃO
     @app.route('/admin/login', methods=['GET', 'POST'])
-    @limiter.limit("10 per minute")
+    @limiter.limit(SecurityConfig.RATE_LIMITS['login'])
     def admin_login():
         if request.method == 'POST':
             username = request.form.get('username', '').strip()
