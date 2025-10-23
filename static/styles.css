@@ -251,3 +251,38 @@ body::before {
     margin-bottom: 1.5rem;
     display: none;
 }
+
+/* Font Awesome Fallbacks */
+.input-group-text i {
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "FontAwesome", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+/* Fallback para ícones que não carregam */
+.input-group-text i:before {
+    content: attr(data-fallback);
+}
+
+/* Ícones específicos com fallbacks */
+.fa-envelope:before {
+    content: "\f0e0";
+}
+
+.fa-phone:before {
+    content: "\f095";
+}
+
+/* Garantir que os ícones sejam visíveis */
+.input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+}

@@ -21,7 +21,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          integrity="sha384-9aAF2x20wjyL1w8Z5DAWNy/AAXj+W3XjY+6U6Xj4U=" 
+          crossorigin="anonymous">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
@@ -36,9 +38,9 @@
                          alt="ComunaTec Logo" class="logo">
                     <img src="{{ url_for('static', filename='LogoOCI.png') }}" 
                          alt="Logo OCI" class="logo">
-                    <div class="mt-4
+                    <div class="mt-4">
                     <h1 class="h3 fw-bold text-primary">Junte-se aos Comunistas de Tecnologia da OCI</h1>
-                    <p class="text-muted">Preencha o formulário abaixo para dirigir a revolução com o uso da tecnologia</p>
+                    <p class="text-muted">Preencha o formulário e use seus conhecimentos em prol da revolução</p>
                 </header>
                 
                 <!-- Form Card -->
@@ -82,7 +84,10 @@
                                     <div class="form-group">
                                         <label for="email" class="form-label">Email *</label>
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                            <span class="input-group-text">
+                                                <i class="fas fa-envelope" aria-hidden="true"></i>
+                                                <span class="sr-only">Email</span>
+                                            </span>
                                             <input type="email" class="form-control" id="email" name="email" required
                                                    placeholder="seu@email.com">
                                         </div>
@@ -93,7 +98,10 @@
                                     <div class="form-group">
                                         <label for="telefone" class="form-label">Telefone (com DDD) *</label>
                                         <div class="input-group">
-                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                            <span class="input-group-text">
+                                                <i class="fas fa-phone" aria-hidden="true"></i>
+                                                <span class="sr-only">Telefone</span>
+                                            </span>
                                             <input type="tel" class="form-control" id="telefone" name="telefone" required
                                                    placeholder="(00) 00000-0000" pattern="\(\d{2}\)\s\d{5}-\d{4}"
                                                    oninput="formatPhoneNumber(this)">
