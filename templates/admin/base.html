@@ -96,6 +96,47 @@
         .fa-calendar-day:before { content: "\f783"; }
         .fa-calendar-week:before { content: "\f784"; }
         .fa-code:before { content: "\f121"; }
+        
+        /* Ícones específicos do dashboard */
+        .fa-whatsapp:before { content: "\f232"; }
+        .fa-eye:before { content: "\f06e"; }
+        .fa-users:before { content: "\f0c0"; }
+        .fa-calendar-day:before { content: "\f783"; }
+        .fa-calendar-week:before { content: "\f784"; }
+        .fa-code:before { content: "\f121"; }
+        
+        /* Garantir que ícones sejam visíveis */
+        .fas, .fab, .far {
+            display: inline-block !important;
+            width: 1em !important;
+            height: 1em !important;
+            text-align: center !important;
+        }
+        
+        /* Correção específica para ícones do dashboard */
+        .fa-whatsapp {
+            color: #25D366 !important;
+        }
+        
+        .fa-eye {
+            color: #6c757d !important;
+        }
+        
+        .fa-users {
+            color: #007bff !important;
+        }
+        
+        .fa-calendar-day {
+            color: #ffc107 !important;
+        }
+        
+        .fa-calendar-week {
+            color: #17a2b8 !important;
+        }
+        
+        .fa-code {
+            color: #28a745 !important;
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
