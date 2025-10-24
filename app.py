@@ -345,12 +345,12 @@ def create_app():
                 else:
                     cursor.execute(base_query + " ORDER BY created_at DESC LIMIT ? OFFSET ?", 
                                  (per_page, offset))
+                    respostas = cursor.fetchall()
                     
                     # Conta total para paginação
                     cursor.execute("SELECT COUNT(*) FROM respostas")
-                
-                respostas = cursor.fetchall()
-                total_records = cursor.fetchone()[0]
+                    total_result = cursor.fetchone()
+                    total_records = total_result[0] if total_result else 0
                 
                 # Calcula informações de paginação
                 total_pages = (total_records + per_page - 1) // per_page
