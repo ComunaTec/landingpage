@@ -7,7 +7,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          integrity="sha384-9aAF2x20wjyL1w8Z5DAWNy/AAXj+W3XjY+6U6Xj4U=" 
+          crossorigin="anonymous">
     <style>
         body {
             background-color: #f8f9fa;
@@ -45,6 +47,55 @@
         .navbar-admin {
             background-color: #cc0000 !important;
         }
+        
+        /* Font Awesome Admin Icons */
+        .fas, .far, .fab {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "FontAwesome", sans-serif !important;
+            font-weight: 900;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 1;
+        }
+        
+        /* Garantir que os ícones sejam visíveis */
+        .nav-link i, .navbar-brand i {
+            display: inline-block;
+            width: 1em;
+            text-align: center;
+        }
+        
+        /* Fallbacks para ícones específicos */
+        .fa-user-shield:before { content: "\f504"; }
+        .fa-sign-out-alt:before { content: "\f2f5"; }
+        .fa-tachometer-alt:before { content: "\f3fd"; }
+        .fa-external-link-alt:before { content: "\f35d"; }
+        .fa-user:before { content: "\f007"; }
+        .fa-arrow-left:before { content: "\f060"; }
+        .fa-user-circle:before { content: "\f2bd"; }
+        .fa-whatsapp:before { content: "\f232"; }
+        .fa-map-marker-alt:before { content: "\f3c5"; }
+        .fa-calendar:before { content: "\f133"; }
+        .fa-users:before { content: "\f0c0"; }
+        .fa-briefcase:before { content: "\f0b1"; }
+        .fa-graduation-cap:before { content: "\f19d"; }
+        .fa-comment:before { content: "\f075"; }
+        .fa-image:before { content: "\f03e"; }
+        .fa-tools:before { content: "\f7d9"; }
+        .fa-envelope:before { content: "\f0e0"; }
+        .fa-print:before { content: "\f02f"; }
+        .fa-lock:before { content: "\f023"; }
+        .fa-sign-in-alt:before { content: "\f2f6"; }
+        .fa-shield-alt:before { content: "\f3ed"; }
+        .fa-search:before { content: "\f002"; }
+        .fa-times:before { content: "\f00d"; }
+        .fa-eye:before { content: "\f06e"; }
+        .fa-chevron-left:before { content: "\f053"; }
+        .fa-chevron-right:before { content: "\f054"; }
+        .fa-inbox:before { content: "\f01c"; }
+        .fa-calendar-day:before { content: "\f783"; }
+        .fa-calendar-week:before { content: "\f784"; }
+        .fa-code:before { content: "\f121"; }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
