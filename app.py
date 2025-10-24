@@ -171,8 +171,11 @@ def create_app():
     def enviar():
         try:
             # Validação de CSRF
-            if not csrf.validate():
-                logger.warning(f"CSRF validation failed from IP: {request.remote_addr}")
+            try:
+                from flask_wtf.csrf import validate_csrf
+                validate_csrf(request.form.get('csrf_token'))
+            except Exception as e:
+                logger.warning(f"CSRF validation failed from IP: {request.remote_addr} - {str(e)}")
                 return jsonify({"error": "Erro de validação CSRF"}), 403
 
             # Sanitização e validação dos inputs
