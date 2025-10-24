@@ -180,7 +180,7 @@ def create_app():
             sobrenome = sanitize_input(request.form.get('sobrenome', ''))
             email = sanitize_input(request.form.get('email', ''))
             telefone = sanitize_input(request.form.get('telefone', ''))
-            whatsapp = sanitize_input(request.form.get('whatsapp', ''))
+            whatsapp = sanitize_input(request.form.get('telefone', ''))
             cidade = sanitize_input(request.form.get('cidade', ''))
             uf = sanitize_input(request.form.get('uf', ''))
             movimento = sanitize_input(request.form.get('movimento', ''))
@@ -200,13 +200,15 @@ def create_app():
                 logger.warning(f"Email inválido: {email} IP: {request.remote_addr}")
                 return jsonify({"error": "Email inválido"}), 400
 
-            if not whatsapp.isdigit() or len(whatsapp) != 11:
-                logger.warning(f"WhatsApp inválido: {whatsapp} IP: {request.remote_addr}")
-                return jsonify({"error": "WhatsApp deve conter 11 dígitos (DDD+telefone)"}), 400
+            # Remove formatação do telefone para validação
+            whatsapp_clean = re.sub(r'\D', '', whatsapp)
+            if not whatsapp_clean.isdigit() or len(whatsapp_clean) != 11:
+                logger.warning(f"Telefone inválido: {whatsapp} IP: {request.remote_addr}")
+                return jsonify({"error": "Telefone deve conter 11 dígitos (DDD+telefone)"}), 400
 
-            # Adiciona +55 ao WhatsApp antes de salvar
-            if whatsapp and whatsapp.isdigit() and len(whatsapp) == 11:
-                whatsapp = '+55' + whatsapp
+            # Adiciona +55 ao telefone antes de salvar
+            if whatsapp_clean and whatsapp_clean.isdigit() and len(whatsapp_clean) == 11:
+                whatsapp = '+55' + whatsapp_clean
 
             logger.info(f"Salvando dados: nome={nome}, sobrenome={sobrenome}, email={email}, whatsapp={whatsapp}")
 

@@ -61,7 +61,8 @@ if (contactForm) {
         }
         
         // Validate phone number (11 digits: DDD + number)
-        if (!/^\d{11}$/.test(telefone)) {
+        const telefoneClean = telefone.replace(/\D/g, '');
+        if (!/^\d{11}$/.test(telefoneClean)) {
             alert('Telefone deve conter 11 dígitos (DDD+telefone)');
             return;
         }
